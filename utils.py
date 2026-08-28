@@ -1,32 +1,45 @@
-import json
+import json, sqlite3
 
-def load_data(nome_arquivo):
-    caminho = "static/data/" + nome_arquivo
+DB_NAME = "banco.db"
 
-    with open(caminho, "r", encoding="utf-8") as arquivo:
-        dados = json.load(arquivo)
+def get_connection():
+    conn = sqlite3.connect(DB_NAME)
+    return conn
 
-    return dados
+def init_db():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS note (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            content TEXT NOT NULL
+        )
+    """)
+    conn.commit()
+    conn.close()
 
-def load_template(nome_arquivo):
-    caminho = "static/templates/" + nome_arquivo
 
-    with open(caminho, "r", encoding="utf-8") as arquivo:
-        template = arquivo.read()
+def load_data(notes):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, title, content FROM note")
+    rows = cursor.fetchall()
+    conn.close()
+    notes = [{"id": row[0], "title": row[1], "content": row[2]} for row in rows]
+    return notes
 
-    return template
+def load_template(index):
+    with open( "static/templates/" + index, "r", encoding="utf-8") as f:
+        return f.read()
 
-def add_note(titulo, detalhes):
-    notes = load_data("notes.json")
 
-    nova_nota = {
-        "titulo": titulo,
-        "detalhes": detalhes
-    }
-
-    notes.append(nova_nota)
-
-    caminho = "static/data/notes.json"
-
-    with open(caminho, "w", encoding="utf-8") as arquivo:
-        json.dump(notes, arquivo, ensure_ascii=False, indent=4)
+def save_note(nova_anotacao):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO note (title, content) VALUES (?, ?)",
+        (nova_anotacao["titulo"], nova_anotacao["detalhes"])
+    )
+    conn.commit()
+    conn.close()
