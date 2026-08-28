@@ -6,7 +6,8 @@
 </head>
 <body>
 
-    <img src="{{{{ url_for('static', filename='img/logo-getit.png') }}}}">
+    <link rel="stylesheet" href="/static/getit.css">
+    <img src="{{{{ url_for('static', filename='img/logo-getit.png') }}}}" class="responsiva" alt="Foto Responsiva">
     <p>Como o Post-it, mas com outro verbo</p>
 
     <form action="/submit" method="POST">

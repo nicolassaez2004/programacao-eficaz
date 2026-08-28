@@ -1,0 +1,18 @@
+body {
+    background-color: #fff9df;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    color: #ff8800;
+}
+
+p {
+    color: #343432;
+}
+
+img.responsiva {
+    max-width: 30%; /* nunca ultrapassa o tamanho do container */
+    height: auto;    /* mantém proporção */
+}
