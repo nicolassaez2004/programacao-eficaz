@@ -4,6 +4,7 @@ from utils import *
 
 init_db()
 
+
 app = Flask(__name__)
 
 # Configurando a pasta de arquivos estáticos
@@ -22,11 +23,30 @@ def submit_form():
     views.submit(titulo, detalhes)
     return redirect('/')
 
-@app.route('/delete', methods=['POST'])
+@app.route("/delete", methods=["POST"])
 def delete():
-    note_id = request.form['id']
+    note_id = request.form["id"]
     delete_note(note_id)
-    return redirect('/')
+    return redirect("/")
+
+@app.route("/edit/<int:note_id>", methods=["GET", "POST"])
+def edit(note_id):
+    if request.method == "POST":
+        title = request.form["title"]
+        content = request.form["content"]
+
+        edit_note(note_id, title, content)
+
+        return redirect("/")
+
+    note = get_note(note_id)
+
+    if note is None:
+        return "Nota não encontrada", 404
+
+    edit_template = load_template("edit.html")
+
+    return render_template_string(edit_template, note=note)
 
 @app.errorhandler(404)
 def page_not_found(error):

@@ -32,11 +32,11 @@ def load_data(notes):
 def load_template(index):
     with open( "static/templates/" + index, "r", encoding="utf-8") as f:
         return f.read()
-
+    
 def delete_note(note_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM note WHERE id = ?', (note_id,))
+    cursor.execute("DELETE FROM note WHERE id = ?", (note_id,))
     conn.commit()
     conn.close()
 
@@ -47,5 +47,42 @@ def save_note(nova_anotacao):
         "INSERT INTO note (title, content) VALUES (?, ?)",
         (nova_anotacao["titulo"], nova_anotacao["detalhes"])
     )
+    conn.commit()
+    conn.close()
+
+def get_note(note_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT id, title, content FROM note WHERE id = ?",
+        (note_id,)
+    )
+
+    row = cursor.fetchone()
+    conn.close()
+
+    if row is None:
+        return None
+
+    return {
+        "id": row[0],
+        "title": row[1],
+        "content": row[2]
+    }
+
+def edit_note(note_id, title, content):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        UPDATE note
+        SET title = ?, content = ?
+        WHERE id = ?
+        """,
+        (title, content, note_id)
+    )
+
     conn.commit()
     conn.close()
