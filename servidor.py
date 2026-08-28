@@ -1,6 +1,6 @@
 from flask import Flask, render_template_string, request, redirect
 import views
-from utils import init_db
+from utils import *
 
 init_db()
 
@@ -21,6 +21,16 @@ def submit_form():
 
     views.submit(titulo, detalhes)
     return redirect('/')
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    note_id = request.form['id']
+    delete_note(note_id)
+    return redirect('/')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return views.not_found(error)
 
 if __name__ == '__main__':
     app.run(debug=True)

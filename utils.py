@@ -33,6 +33,12 @@ def load_template(index):
     with open( "static/templates/" + index, "r", encoding="utf-8") as f:
         return f.read()
 
+def delete_note(note_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM note WHERE id = ?', (note_id,))
+    conn.commit()
+    conn.close()
 
 def save_note(nova_anotacao):
     conn = get_connection()
