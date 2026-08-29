@@ -23,6 +23,13 @@ def submit_form():
     views.submit(titulo, detalhes)
     return redirect('/')
 
+@app.route('/favorite', methods=['POST'])
+def favorite():
+    note_id = request.form.get('id')
+    if note_id is not None:
+        toggle_favorite(note_id)
+    return redirect('/')
+
 @app.route("/delete", methods=["POST"])
 def delete():
     note_id = request.form["id"]

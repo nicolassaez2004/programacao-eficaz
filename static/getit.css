@@ -145,6 +145,11 @@ li {
     overflow: hidden;
 }
 
+li.card.favorite {
+    background: linear-gradient(135deg, #f9e98a 0%, #f5d36a 100%);
+    border-color: rgba(132, 93, 13, 0.9);
+}
+
 li:nth-child(even) {
     transform: rotate(1.8deg);
 }
@@ -205,6 +210,39 @@ li button {
     font-size: 0.8rem;
     background: rgba(255, 255, 255, 0.18);
     box-shadow: 0 3px 0 rgba(36, 32, 26, 0.8);
+}
+
+.note-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.favorite-form {
+    margin: 0;
+    width: auto;
+}
+
+.favorite-toggle {
+    min-width: 36px !important;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.favorite-star {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.favorite-toggle.favorite {
+    background: #f8ce4e;
 }
 
 li > form {

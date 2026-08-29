@@ -1,13 +1,19 @@
-<li>
-    <h3>{title}</h3>
+<li class="card {favorite_class}">
+    <div class="note-header">
+        <h3>{title}</h3>
+        <form action="/favorite" method="post" class="favorite-form">
+            <input type="hidden" name="id" value="{id}">
+            <button type="submit" name="favorite_button" class="favorite-toggle {favorite_class}" value="{id}" aria-label="{favorite_label}">
+                <span class="favorite-star">{favorite_icon}</span>
+            </button>
+        </form>
+    </div>
     <p>{details}</p>
-  </form>
-    <form action="/delete" method="post">
-    <input type="hidden" name="id" value="{id}">
-    <button type="submit" name="delete_button">Excluir</button>
-    
-  </form>
-    <form action="/edit/{id}" method="get">
-    <button type="submit">Editar</button>
-  </form>
-  </li>
+    <form action="/delete" method="post" class="delete-form">
+        <input type="hidden" name="id" value="{id}">
+        <button type="submit" name="delete_button">Excluir</button>
+    </form>
+    <form action="/edit/{id}" method="get" class="edit-form">
+        <button type="submit">Editar</button>
+    </form>
+</li>
